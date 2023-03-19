@@ -81,6 +81,7 @@ A namespace is simply an isolation mechanism to separate resources.
 In Kubernetes, the smallest deployable unit is Pod.  
 
 <!-- [TODO]: more resources on why there is Pod. -->
+"Pods are designed to support multiple cooperating processes (as containers) that form a cohesive unit of service. The containers in a Pod are automatically co-located and co-scheduled on the same physical or virtual machine in the cluster." https://kubernetes.io/docs/concepts/workloads/pods/
 
 All the containers exist within Pods, and a Pod hosts 1 or more closely related containers.  
 For this assignment's purpose, we assume there is only 1 container in each Pod, and the concepts of Pod and container are interchangeable.
@@ -221,10 +222,12 @@ A way to do it is to set up a service object in `ClusterIP` type which will crea
 so that any Pod can access a set of Pods using a virtual IP.  
 > Note that Such IP is not real and pinging it **will not** do anything.  
 <!-- > [TODO] expand on kube-proxy if there is space. -->
+"kube-proxy is a network proxy that runs on each node in your cluster, implementing part of the Kubernetes Service concept. kube-proxy maintains network rules on nodes. These network rules allow network communication to your Pods from network sessions inside or outside of your cluster." https://kubernetes.io/docs/concepts/overview/components/#:~:text=kube%2Dproxy%20is%20a%20network,or%20outside%20of%20your%20cluster. 
 
 However, they **cannot** be reached from the network outside the cluster (e.g. our computer).
 
 <!-- [TODO] explain why cannot -->
+"In Kubernetes, nodes, pods and services all have their own IPs. In many cases, the node IPs, pod IPs, and some service IPs on a cluster will not be routable, so they will not be reachable from a machine outside the cluster, such as your desktop machine." https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster-services/#:~:text=In%20Kubernetes%2C%20nodes%2C%20pods%20and,such%20as%20your%20desktop%20machine. 
 
 There are some ways to get service exposed to the public net such as AWS load balancer controller which creates public load balancer and proxies Service object directly.
 
@@ -272,6 +275,7 @@ ingress-nginx-controller   1/1     1            1           6m19s
 > As you can see, Ingress controllers live in a different namespace called "ingress-nginx" by design.
 
 <!-- [TODO] explain the architecture of this. -->
+"Accept traffic from outside the Kubernetes platform, and load balance it to pods (containers) running inside the platform" https://www.nginx.com/resources/glossary/kubernetes-ingress-controller/#:~:text=An%20Ingress%20controller%20abstracts%20away,containers)%20running%20inside%20the%20platform 
 
 ### Step 2: Create a Service for your Deployment
 
